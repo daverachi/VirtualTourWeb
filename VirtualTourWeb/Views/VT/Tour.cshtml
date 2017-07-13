@@ -1,0 +1,16 @@
+﻿@model VirtualTourWeb.Models.Tour
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+    #external {
+        width: 100%;
+        height: 700px;
+    }
+</style>
+<div class="row">
+    <div class="col-xs-12">
+        <iframe name="KRpano" id="external" frameborder="0" src=@Url.Content(Model.KrPanoPath) webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    </div>
+</div>
+

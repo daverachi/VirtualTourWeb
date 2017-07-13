@@ -36,7 +36,7 @@ namespace VirtualTourWeb.Services.Rest
                     extendedURI = string.Format("{0}/{1}", extendedURI, id);
                 }
             }
-            else if (restService == typeof(AreaRestService))
+            else if (restService == typeof(LocationRestService))
             {
                 extendedURI = "{0}/locationApi";
                 if (id != null)

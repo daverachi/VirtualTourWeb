@@ -1,0 +1,23 @@
+﻿@model VirtualTourWeb.Models.Area
+@{
+    var title = string.Format("{0} Tours", Model.Name);
+    ViewBag.Title = title;
+}
+
+<div class="row">
+    @foreach (var tour in Model.Tours)
+    {
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
+            <a href="@Url.Action("Tour","VT", new { @id = tour.Id })">
+                <div class="thumbnail">
+                    <img src="@tour.ImagePath" alt="@tour.Name Image" />
+                    <div class="caption">
+                        <h3>@tour.Name</h3>
+                        @Html.Raw(tour.DescriptionHtml)
+                    </div>
+                </div>
+            </a>
+        </div>
+    }
+</div>
+

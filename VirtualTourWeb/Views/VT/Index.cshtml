@@ -7,10 +7,10 @@
 
 
 <div class="row">
-    @foreach(var location in Model.Locations)
+    @foreach (var location in Model.Locations)
     {
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-            <a href="@Url.Action("Index","Location", new { @id = location.Id })">
+            <a href="@Url.Action("Location","VT", new { @id = location.Id })">
                 <div class="thumbnail">
                     <img src="@location.ImagePath" alt="@location.Name Image" />
                     <div class="caption">
