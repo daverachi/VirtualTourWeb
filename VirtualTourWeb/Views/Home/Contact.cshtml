@@ -1,0 +1,18 @@
+﻿@model VirtualTourWeb.Models.Client
+@{
+    var name = Model.Name;
+    ViewBag.Title = string.Format("Contact {0}", name);
+}
+<h2>Contact @Model.Name</h2>
+
+<address>
+    @Model.StreetAddress<br />
+    @Model.City, @Model.State @Model.Zipcode<br />
+    <abbr title="Phone">P:</abbr>
+    @Model.Phone
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:@Model.SupportEmail">@Model.SupportEmail</a><br />
+    <strong>Marketing:</strong> <a href="mailto:@Model.MarketingEmail">@Model.MarketingEmail</a>
+</address>

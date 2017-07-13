@@ -1,0 +1,14 @@
+﻿@model VirtualTourWeb.Models.Client
+@{
+    ViewBag.Title = string.Format("About", Model.Name);
+}
+<div class="row">
+    <div class="col-xs-12">
+        <h2>About @Model.Name</h2>
+    </div>
+    <div class="col-xs-12">
+        @Html.Raw(Model.DescriptionHtml)
+    </div>
+</div>
+
+
