@@ -1,0 +1,42 @@
+﻿@model VirtualTourWeb.Models.Location
+<hr />
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">@Model.Name</div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-5 col-xs-12 text-center">
+                        <a href="@Url.Action("Location","VT", new { @id = Model.Id })">
+                            <img class="img-responsive" src="@Model.ImagePath" alt="@Model.Name Image" />
+                            @{
+                                var address = string.Format("{0}+{1}+{2}+{3}", Model.StreetAddress, Model.City, Model.State, Model.Zipcode).Replace(' ', '+').Replace("\'", "\'\'");
+                                var name = Model.Name.Replace(' ', '+').Replace("\'", "\'\'");
+                            }
+                            <div id="LocationAddress_@(Model.Id)" class="hidden" data-address="@address" data-id="@Model.Id" data-name="@name"></div>
+                        </a>
+                    </div>
+                    <div class="col-lg-7 col-xs-12 descriptionPane">
+                        @Html.Raw(Model.DescriptionHtml)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    @*<div class="thumbnail">
+        <div class="col-xs-5">
+            
+        </div>
+    </div>
+    @*<div class="col-xs-4 map" id="map_@(Model.Id)"></div>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        alert('something');
+        google.load("maps", "3.x");
+        google.setOnLoadCallback(function () {
+            initMap('LocationAddress_@(Model.Id)')
+        });
+    </script>*@
+    
+</div>

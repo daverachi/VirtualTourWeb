@@ -219,6 +219,7 @@
     <Content Include="Views\VT\Location.cshtml" />
     <Content Include="Views\VT\Area.cshtml" />
     <Content Include="Views\VT\Tour.cshtml" />
+    <Content Include="Views\Location\_LocationPane.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

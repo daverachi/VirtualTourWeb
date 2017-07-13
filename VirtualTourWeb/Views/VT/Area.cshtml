@@ -4,20 +4,94 @@
     ViewBag.Title = title;
 }
 
-<div class="row">
-    @foreach (var tour in Model.Tours)
-    {
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-            <a href="@Url.Action("Tour","VT", new { @id = tour.Id })">
-                <div class="thumbnail">
-                    <img src="@tour.ImagePath" alt="@tour.Name Image" />
-                    <div class="caption">
-                        <h3>@tour.Name</h3>
-                        @Html.Raw(tour.DescriptionHtml)
-                    </div>
-                </div>
-            </a>
-        </div>
+<style>
+    .hotspot {
+        background-color: #fff;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        height: 25px;
+        position: absolute;
+        width: 25px;
+        cursor: default;
+        z-index: 1;
+        border: 2px solid;
     }
+</style>
+
+<div class="row">
+    <div class="col-lg-offset-2 col-xs-12 col-lg-8">
+        <div id="mapHolder">
+            <img class="img-responsive" src="@Model.ImagePath" alt="@Model.Name Image" />
+            @foreach (var tour in Model.Tours.Where(x => x.MapY != null && x.MapX != null))
+            {
+                <button class="hotspot" id="@tour.Id" data-placement=@(tour.MapX > 50 ? "left" : "right")
+                        style="top: @(string.Format("{0:F5}%", tour.MapY * 100)); left: @(string.Format("{0:F5}%", tour.MapX * 100));"
+                        data-locationName="@tour.Name"
+                        data-locationDescription="@tour.DescriptionHtml"
+                        data-locationLink="@Url.Action("Tour", "VT", new { id = tour.Id })"
+                        data-toggle="popover" rel="locationDetails"
+                        data-thumbnail="@Url.Content(@tour.ImagePath)"
+                        data-position=@(tour.MapX > 50 ? "left" : "right")></button>
+            }
+        </div>
+    </div>
+    
 </div>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            alert("working");
+            $('.hotspot').each(function () {
+                var position = $(this).attr("data-position");
+                $(this).popover({
+                    placement: position,
+                    html: 'true',
+                    content: '<div class="desktop-wrapper clearfix" style="opacity: 1 !important;">' +
+                    '<div class="popover-dismissal-icon"><i class="ms-Icon ms-Icon--Cancel" aria-hidden="true"></i></div>' +
+                    '<div class="' + (position == "left" ? "desktop-img-container-left" : "desktop-img-container") + '">' +
+                    '<img class="col-xs-3 img-thumbnail" alt="' + $(this).attr("data-locationName") + ' thumbnail" src="' + $(this).attr("data-thumbnail") + '" title="">' +
+                    '</div>' +
+                    '<div class="' + (position == "left" ? "desktop-content-container-left" : "desktop-content-container") + '">' +
+                    '<div class="cos-xs-12 desktop-heading">' + $(this).attr("data-locationName") + '</div>' +
+                    '<div class="col-xs-12 ' + (position == "left" ? "desktop-content-left" : "desktop-content") + '">' + $(this).attr("data-locationDescription") + '</div>' +
+                    '<div class="desktop-button">' +
+                    '<a href="' + $(this).attr("data-locationLink") + '" class="btn btn-danger btn-sm btn-mobile custom-button">Launch Tour</a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>',
+                    trigger: 'manual'
+                });
+            });
+            var touched = false;
+            $('.hotspot').mouseenter(function () {
+                $('.hotspot[id!="' + $(this).attr('id') + '"]').popover('hide');
+                $('.hotspot[id!="' + $(this).attr('id') + '"]').removeClass('hotspotHover');
+                if (!$(this).next('div.popover:visible').length) {
+                    $(this).popover('show');
+                    $(this).addClass('hotspotHover');
+                    touched = true;
+                    setTimeout(function () { touched = false }, 1000);
+                }
+            });
+            $('#mapHolder').mouseleave(function () {
+                if (!touched) {
+                    $('.hotspot').popover('hide');
+                    $('.hotspot').removeClass('hotspotHover');
+                }
+            });
+            $('#mapHolder').click(function () {
+                if (!touched) {
+                    $('.hotspot').popover('hide');
+                    $('.hotspot').removeClass('hotspotHover');
+                }
+            });
+            $(document).on('click', '.popover-dismissal-icon', function () {
+                $('.hotspot').popover('hide');
+                $('.hotspot').removeClass('hotspotHover');
+            });
+        });
+</script>
+    
+}
 

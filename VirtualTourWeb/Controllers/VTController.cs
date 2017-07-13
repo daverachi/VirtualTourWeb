@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using VirtualTourWeb.Interfaces;
+using VirtualTourWeb.Models;
 
 namespace VirtualTourWeb.Controllers
 {
@@ -58,6 +55,11 @@ namespace VirtualTourWeb.Controllers
             }
             var tour = _tourService.GetTourAsync(id.Value).Result;
             return View("Tour", tour);
+        }
+
+        public ActionResult RenderLocation(Location location)
+        {
+            return PartialView("~/Views/Location/_LocationPane.cshtml", location);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿body {
-    /*padding-top: 50px;*/
+    font-family: 'Open Sans', sans-serif !important;
     padding-bottom: 20px;
 }
 
@@ -21,4 +21,15 @@ input,
 select,
 textarea {
     max-width: 280px;
+}
+
+.img-responsive{
+    display:initial;
+    padding-bottom:10px
+}
+
+
+/*Quill display classes*/
+.ql-align-center{
+    text-align:center;
 }

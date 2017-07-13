@@ -4,21 +4,69 @@
     var title = string.Format("{0} Virtual Tour Home", Model.Name);
     ViewBag.Title = title;
 }
+<style>
+    .map {
+        height: 350px;
+    }
+    .descriptionPane {
+        max-height: 300px;
+        overflow-y: auto;
+    }
+</style>
+@*<script>
+    var maps = [];
+    function initMap(divId) {
+        address = $('#' + divId).attr('data-address');
+        id = $('#' + divId).attr('data-id');
+        name = $('#' + divId).attr('data-name');
+        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDzU3El5fPqXbkw8bf3WIXC9OQCkaWgJak"
 
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (result) {
+                var myLatLng = result.results[0].geometry.location;
+                maps.push(new google.maps.Map(document.getElementById('map_' + id), {
+                    zoom: 15,
+                    center: myLatLng
+                }));
 
-<div class="row">
-    @foreach (var location in Model.Locations)
-    {
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4">
-            <a href="@Url.Action("Location","VT", new { @id = location.Id })">
-                <div class="thumbnail">
-                    <img src="@location.ImagePath" alt="@location.Name Image" />
-                    <div class="caption">
-                        <h3>@location.Name</h3>
-                        @Html.Raw(location.DescriptionHtml)
+                var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: maps[maps.length - 1],
+                    title: name.replace(/\+/g, ' ')
+                });
+            },
+            error: function () {
+                alert('failed!');
+            }
+        })
+    }
+</script>*@
+@foreach (var location in Model.Locations)
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">@location.Name</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-5 col-xs-12 text-center">
+                            <a href="@Url.Action("Location","VT", new { @id = location.Id })">
+                                <img class="img-responsive" src="@location.ImagePath" alt="@location.Name Image" />
+                                @*@{
+                                    var address = string.Format("{0}+{1}+{2}+{3}", Model.StreetAddress, Model.City, Model.State, Model.Zipcode).Replace(' ', '+').Replace("\'", "\'\'");
+                                    var name = Model.Name.Replace(' ', '+').Replace("\'", "\'\'");
+                                }*@
+                                @*<div id="LocationAddress_@(location.Id)" class="hidden" data-address="@address" data-id="@Model.Id" data-name="@name"></div>*@
+                            </a>
+                        </div>
+                        <div class="col-lg-7 col-xs-12 descriptionPane">
+                            @Html.Raw(location.DescriptionHtml)
+                        </div>
                     </div>
                 </div>
-            </a>
+            </div>
         </div>
-    }
-</div>
+    </div>
+}
