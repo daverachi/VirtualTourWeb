@@ -25,14 +25,14 @@
             <img class="img-responsive" src="@Model.ImagePath" alt="@Model.Name Image" />
             @foreach (var tour in Model.Tours.Where(x => x.MapY != null && x.MapX != null))
             {
-                <button class="hotspot" id="@tour.Id" data-placement=@(tour.MapX > 50 ? "left" : "right")
+                <button class="hotspot" id="@tour.Id" data-placement=@(tour.MapX > .5 ? "left" : "right")
                         style="top: @(string.Format("{0:F5}%", tour.MapY * 100)); left: @(string.Format("{0:F5}%", tour.MapX * 100));"
                         data-locationName="@tour.Name"
                         data-locationDescription="@tour.DescriptionHtml"
                         data-locationLink="@Url.Action("Tour", "VT", new { id = tour.Id })"
                         data-toggle="popover" rel="locationDetails"
                         data-thumbnail="@Url.Content(@tour.ImagePath)"
-                        data-position=@(tour.MapX > 50 ? "left" : "right")></button>
+                        data-position=@(tour.MapX > .5 ? "left" : "right")></button>
             }
         </div>
     </div>
@@ -41,7 +41,6 @@
 @section Scripts {
     <script>
         $(document).ready(function () {
-            alert("working");
             $('.hotspot').each(function () {
                 var position = $(this).attr("data-position");
                 $(this).popover({

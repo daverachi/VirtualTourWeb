@@ -12,61 +12,138 @@
         max-height: 300px;
         overflow-y: auto;
     }
-</style>
-@*<script>
-    var maps = [];
-    function initMap(divId) {
-        address = $('#' + divId).attr('data-address');
-        id = $('#' + divId).attr('data-id');
-        name = $('#' + divId).attr('data-name');
-        var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDzU3El5fPqXbkw8bf3WIXC9OQCkaWgJak"
-
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (result) {
-                var myLatLng = result.results[0].geometry.location;
-                maps.push(new google.maps.Map(document.getElementById('map_' + id), {
-                    zoom: 15,
-                    center: myLatLng
-                }));
-
-                var marker = new google.maps.Marker({
-                    position: myLatLng,
-                    map: maps[maps.length - 1],
-                    title: name.replace(/\+/g, ' ')
-                });
-            },
-            error: function () {
-                alert('failed!');
-            }
-        })
+    .flex-container{
+        display:flex;
+        flex-flow: row wrap;
+        justify-content: space-around;
     }
-</script>*@
-@foreach (var location in Model.Locations)
-{
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">@location.Name</div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-5 col-xs-12 text-center">
-                            <a href="@Url.Action("Location","VT", new { @id = location.Id })">
-                                <img class="img-responsive" src="@location.ImagePath" alt="@location.Name Image" />
-                                @*@{
-                                    var address = string.Format("{0}+{1}+{2}+{3}", Model.StreetAddress, Model.City, Model.State, Model.Zipcode).Replace(' ', '+').Replace("\'", "\'\'");
-                                    var name = Model.Name.Replace(' ', '+').Replace("\'", "\'\'");
-                                }*@
-                                @*<div id="LocationAddress_@(location.Id)" class="hidden" data-address="@address" data-id="@Model.Id" data-name="@name"></div>*@
-                            </a>
-                        </div>
-                        <div class="col-lg-7 col-xs-12 descriptionPane">
-                            @Html.Raw(location.DescriptionHtml)
-                        </div>
-                    </div>
-                </div>
+    .container{
+        max-width:1650px;
+    }
+    .flex-item {
+        width: 525px;
+        height: 325px;
+        margin-top: 2px;
+        cursor: pointer;
+        font-size: 1.25em;
+        transition: all 0.3s ease-in-out;
+    }
+    .flex-item:hover {
+        transform: scale(1.04, 1.05);
+        font-size: 1.75em;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .flex-item-title {
+        position: relative;
+        top: 50%;
+        text-align: center;
+        line-height: 0;
+        color: white;
+        z-index: 1;
+    }
+    .img-fluid {
+        max-height: 100%;
+        height: auto;
+        width:100%;
+    }
+    .image-container {
+        position: relative;
+        display: inline-block;
+    }
+
+        .image-container:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #0006;
+            top:0;
+        }
+</style>
+<ul class="flex-container">
+    @foreach (var location in Model.Locations)
+    {
+        <li class="flex-item">
+            <div class="flex-item-title">@location.Name</div>
+            <div class="image-container">
+                <img class="img-fluid" src="@location.ImagePath" alt="@location.Name Image" />
             </div>
-        </div>
-    </div>
+            @*<a href="@Url.Action("Location","VT", new { @id = location.Id })">
+                
+            </a>*@
+        </li>
+    }
+
+
+
+
+    @*<li class="flex-item">1</li>
+    <li class="flex-item">2</li>
+    <li class="flex-item">3</li>*@
+    @*<li class="flex-item">4</li>
+    <li class="flex-item">5</li>
+    <li class="flex-item">6</li>
+    <li class="flex-item">7</li>*@
+</ul>
+
+
+
+
+@section Scripts { 
+<script>
+    $(function () {
+        $('.flex-item').click(function () {
+            $(this).css('flex-grow','2')
+        });
+
+        //function hoverFlexItem(item) {
+        //    var title = $(item).children('.flex-item-title');
+        //    $(title).animate({
+        //        fontSize: '2em'
+        //    })
+        //}
+
+        //function unhoverFlexItem(item) {
+        //    var title = $(item).children('.flex-item-title');
+        //    $(title).animate({
+        //        fontSize: '1.25em',
+        //        borderWidth: '0px'
+        //    })
+        //}
+    });
+        //var maps = [];
+        //function initMap(divId) {
+        //    address = $('#' + divId).attr('data-address');
+        //    id = $('#' + divId).attr('data-id');
+        //    name = $('#' + divId).attr('data-name');
+        //    var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDzU3El5fPqXbkw8bf3WIXC9OQCkaWgJak"
+
+        //    $.ajax({
+        //        type: "GET",
+        //        url: url,
+        //        success: function (result) {
+        //            var myLatLng = result.results[0].geometry.location;
+        //            maps.push(new google.maps.Map(document.getElementById('map_' + id), {
+        //                zoom: 15,
+        //                center: myLatLng
+        //            }));
+
+        //            var marker = new google.maps.Marker({
+        //                position: myLatLng,
+        //                map: maps[maps.length - 1],
+        //                title: name.replace(/\+/g, ' ')
+        //            });
+        //        },
+        //        error: function () {
+        //            alert('failed!');
+        //        }
+        //    })
+        //}
+
+</script>
+
 }
+
+
+
